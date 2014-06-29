@@ -29,23 +29,29 @@ package app.view.common
 		private var _closeTitle:ImageBox;
 		private var _proxy:Sprite = new Sprite();	//rotationY회전을 위해 윈도우를 감싸는 컨테이너
 		
-		public function Window(w:int, h:int, allCover:Boolean = false ) 
+		public function Window(w:int, h:int, allCover:Boolean = false, skin:String = "white" ) 
 		{
 			super();
 
 			_allCover = allCover;
 			
-			_bg = new ImageBox("alert_body_bg");
+			var path:String = "";
+			if (skin == "black")
+			{
+				path = "gourmet/"
+			}
+			
+			_bg = new ImageBox(path+"alert_body_bg");
 			_bg.width = w;
 			_bg.height = h;
 			addChild(_bg);
 			
-			_closeBtn = new Button([new ImageBox("alert_button_bg"), new ImageBox("alert_button_bg_press")]);
+			_closeBtn = new Button([new ImageBox(path+"alert_button_bg"), new ImageBox(path+"alert_button_bg_press")]);
 			_closeBtn.width = w;
 			_closeBtn.y = h - _closeBtn.height;
 			addChild(_closeBtn);
 			
-			_closeTitle = new ImageBox("alert_close");
+			_closeTitle = new ImageBox(path+"alert_close");
 			_closeTitle.x = Math.round(w / 2 - _closeTitle.width / 2);
 			_closeTitle.y = _closeBtn.y;
 			_closeTitle.mouseEnabled = false;
@@ -76,17 +82,17 @@ package app.view.common
 				Window.curWindow.close();
 			}
 			
-			x = Math.round(540 - width / 2);
+			x = Math.round(540 - _bg.width / 2);
 			
 			if (Model.instance.mode == 0)
 			{
-				y = Math.round(108 + (1920 - 108 - 68) / 2 - height / 2);
+				y = Math.round(108 + (1920 - 108 - 68) / 2 - _bg.height / 2);
 				Application.instance.dimBox.height = 1920 - 108 - 68;
 				
 			}
 			else
 			{
-				y = Math.round(108 + (1920 - 108 - 68 - 170) / 2 - height / 2);
+				y = Math.round(108 + (1920 - 108 - 68 - 170) / 2 - _bg.height / 2);
 				Application.instance.dimBox.height = 1920 - 108 - 68;
 				//Application.instance.dimBox.height = 1920 - 108 - 68 - 170;
 			}
@@ -95,9 +101,9 @@ package app.view.common
 			Application.instance.addChild(Application.instance.dimBox);
 			
 			_proxy.x = 540;
-			_proxy.y = Math.round(y + height / 2);
-			x = -Math.round(width / 2);
-			y = -Math.round(height / 2);
+			_proxy.y = Math.round(y + _bg.height / 2);
+			x = -Math.round(_bg.width / 2);
+			y = -Math.round(_bg.height / 2);
 			_proxy.addChild(this);
 			
 			var xfactor:Number=_proxy.width/(_proxy.width+1);

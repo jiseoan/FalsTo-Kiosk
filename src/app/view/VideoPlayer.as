@@ -54,7 +54,7 @@ package app.view
 				
 			}
 			
-			Model.instance.mode = 7;
+			Model.instance.mode = 8;
 			
 			Main.instance.addEventListener(Main.BEFORE_RESTART, onBeforeRestart);
 		}

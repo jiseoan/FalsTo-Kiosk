@@ -23,6 +23,7 @@ package app.view
 		private var _curViewProxy:Bitmap;
 		private var _nextViewProxy:Bitmap;
 		private var _sec:Number = 0.5;
+		private var _delay:Number = 0.2;
 		private var _ease:Function = Sine.easeInOut;
 		
 		public function TransitionProxy() 
@@ -46,7 +47,6 @@ package app.view
 		
 		public function homeToContent(mode:int):void
 		{
-			if (mode == 6) return;
 			
 			var self:TransitionProxy = this;
 			
@@ -60,16 +60,16 @@ package app.view
 			_nextViewProxy.x = 1080;
 			addChild(_nextViewProxy);
 			
-			TweenMax.to(_curViewProxy, _sec, { x: -200, colorMatrixFilter:{brightness:-0.7 }, ease:_ease} );
-			TweenNano.to(_nextViewProxy, _sec, { x: 0, ease:_ease, onComplete:dispose } );
+			TweenMax.to(_curViewProxy, _sec, { x: -200, delay:_delay, colorMatrixFilter:{brightness:-0.7 }, ease:_ease} );
+			TweenNano.to(_nextViewProxy, _sec, { x: 0, delay:_delay, ease:_ease, onComplete:dispose } );
 			
 			Application.instance.addChild(this);
+			Application.instance.addChild(Application.instance.navigator);
 
 		}
 		
 		public function contentToContent(curView:Bitmap, mode:int):void
 		{
-			if (mode == 6) return;
 			
 			var self:TransitionProxy = this;
 			var dir:int = (mode > Model.instance.mode)?1: -1;
@@ -83,10 +83,11 @@ package app.view
 			_nextViewProxy.x = 1080 * dir;
 			addChild(_nextViewProxy);
 			
-			TweenMax.to(_curViewProxy, _sec, { x: -200*dir, colorMatrixFilter:{brightness:-0.7 }, ease:_ease} );
-			TweenNano.to(_nextViewProxy, _sec, { x: 0, ease:_ease, onComplete:dispose } );
+			TweenMax.to(_curViewProxy, _sec, { x: -200*dir, delay:_delay, colorMatrixFilter:{brightness:-0.7 }, ease:_ease} );
+			TweenNano.to(_nextViewProxy, _sec, { x: 0, delay:_delay, ease:_ease, onComplete:dispose } );
 			
 			Application.instance.addChild(this);
+			Application.instance.addChild(Application.instance.navigator);
 		}
 		
 		public function contentToHome():void
@@ -101,10 +102,11 @@ package app.view
 			_nextViewProxy.x = -1080;
 			addChild(_nextViewProxy);
 			
-			TweenMax.to(_curViewProxy, _sec, { x: 200, ease:_ease, colorMatrixFilter:{brightness:-0.7 }} );
-			TweenNano.to(_nextViewProxy, _sec, { x: 0, ease:_ease, onComplete:dispose } );
+			TweenMax.to(_curViewProxy, _sec, { x: 200, delay:_delay, ease:_ease, colorMatrixFilter:{brightness:-0.7 }} );
+			TweenNano.to(_nextViewProxy, _sec, { x: 0, delay:_delay, ease:_ease, onComplete:dispose } );
 			
 			Application.instance.addChild(this);
+			Application.instance.addChild(Application.instance.navigator);
 		}
 
 		private function dispose():void

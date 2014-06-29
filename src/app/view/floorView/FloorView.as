@@ -3,7 +3,6 @@ package app.view.floorView
 	import app.model.FloorName;
 	import app.model.Model;
 	import app.view.common.ImageBox;
-	import app.view.common.Navigator;
 	import app.view.IView;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -24,7 +23,6 @@ package app.view.floorView
 		private var _mapView:MapViewer;
 		
 		private var _shopList:ShopList;
-		private var _navigator:Navigator;
 		
 		public function FloorView() 
 		{
@@ -41,10 +39,16 @@ package app.view.floorView
 			_shopList = new ShopList();
 			addChild(_shopList);
 			
-			_navigator = new Navigator();
-			addChild(_navigator);
+			if (Model.instance.floorViewInitObj == null)
+			{
+				setStatus(Model.instance.config.hall, FloorName.name.indexOf(Model.instance.config.floor));
+			}
+			else
+			{
+				setStatus(Model.instance.floorViewInitObj.hall, Model.instance.floorViewInitObj.floor);
+				Model.instance.floorViewInitObj = null;
+			}
 			
-			setStatus(Model.instance.config.hall, FloorName.name.indexOf(Model.instance.config.floor));
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStage);
 		}

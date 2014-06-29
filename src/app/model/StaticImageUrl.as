@@ -7,6 +7,40 @@ package app.model
 	public class StaticImageUrl 
 	{
 		public static var commonImageKeys:Array = [
+//gourmet
+"gourmet/submenu",
+"gourmet/submenu_click",
+"gourmet/logo",
+"gourmet/alert_close",
+"gourmet/btn_next_white",
+"gourmet/btn_prev_white",
+"gourmet/btn_page",
+"gourmet/btn_page_disable",
+"gourmet/btn_page_focus",
+"gourmet/btn_page_press",
+"gourmet/btn_next",
+"gourmet/btn_next_press",
+"gourmet/btn_prev",
+"gourmet/btn_prev_press",
+"gourmet/search_close",
+"gourmet/search_close_press",
+"gourmet/search_field",
+"gourmet/btn_search",
+"gourmet/btn_search_press",
+"gourmet/tab_search",
+"gourmet/tab_search_press",
+"gourmet/tab_category",
+"gourmet/tab_category_press",
+"gourmet/search_food_table",
+"gourmet/category_item",
+"gourmet/category_item_press",
+"gourmet/alert_body_bg",
+"gourmet/alert_button_bg",
+"gourmet/alert_button_bg_press",
+"gourmet/handle",
+"gourmet/handle_press",
+"gourmet/scroll_bg",
+		
 		
 "alert_body_bg",
 "alert_button_bg",
@@ -90,6 +124,8 @@ package app.model
 "map_WEST4_3F",
 "map_WEST5_4F",
 "map_WEST6_5F",
+"menu_item0",
+"menu_item0_press",
 "menu_item1",
 "menu_item1_press",
 "menu_item2",
@@ -102,6 +138,8 @@ package app.model
 "menu_item5_press",
 "menu_item6",
 "menu_item6_press",
+"menu_item7",
+"menu_item7_press",
 "search_field",
 "tab_category",
 "tab_category_press",
@@ -125,6 +163,10 @@ package app.model
 "category_item_press",
 "map_back_location_info1",
 "map_back_location_info2",
+"0-1_uparrow",
+"0-1_downarrow",
+"0-2_uparrow",
+"0-2_downarrow",
 "1-1_downarrow",
 "1-1_uparrow",
 "1-2_downarrow",
@@ -137,6 +179,8 @@ package app.model
 "1-5_uparrow",
 "1-6_downarrow",
 "1-6_uparrow",
+"1-7_downarrow",
+"1-7_uparrow",
 "2-2_downarrow",
 "2-2_uparrow",
 "2-3_downarrow",
@@ -156,12 +200,23 @@ package app.model
 "next_btn",
 "next_btn_press",
 "prev_btn",
-"prev_btn_press"
+"prev_btn_press",
+"btn_menu",
+"btn_menu_press"
 
 		];
 		
 		public static var imageKeys:Array = [
 		
+			//gourmet
+			"gourmet/menu", 
+			"gourmet/menu_click",
+			"gourmet/title_only_galleria",
+			"gourmet/title_menu_search",
+			"gourmet/title_tasty_chart",
+			"gourmet/title_menu",
+			
+			
 			"galleria_service", 
 			"main_menu", 
 			"title_brand_search", 
@@ -177,9 +232,7 @@ package app.model
 			"alert_nodata_brand",
 			"alert_nodata_search",
 			"alert_screensaver",
-			"key1",
-			"key2",
-			"key3"
+			
 		];
 		
 		public static function getUrl(key:String, lang:String=null):String

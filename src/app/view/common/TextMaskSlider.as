@@ -22,7 +22,7 @@ package app.view.common
 		{
 			removeMaskSlider(tf);
 			
-			if (tf.width >= tf.textWidth - 5) 
+			if (tf.width >= tf.textWidth) 
 			{
 				return;
 			}

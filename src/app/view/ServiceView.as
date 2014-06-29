@@ -5,7 +5,6 @@ package app.view
 	import app.model.FloorName;
 	import app.model.Model;
 	import app.view.common.ImageBox;
-	import app.view.common.Navigator;
 	import app.view.floorView.LocationWindow;
 	import flash.display.SimpleButton;
 	import flash.display.Sprite;
@@ -19,7 +18,6 @@ package app.view
 	{
 		private var _btnContainer:ServiceViewButtonsAsset;
 		private var _btns:Array = [];
-		private var _navigator:Navigator;
 		
 		public function ServiceView() 
 		{
@@ -30,9 +28,6 @@ package app.view
 			
 			_btnContainer = new ServiceViewButtonsAsset();
 			addChild(_btnContainer);
-			
-			_navigator = new Navigator();
-			addChild(_navigator);
 			
 			for (var i:int = 0; i < _btnContainer.numChildren; i++) 
 			{

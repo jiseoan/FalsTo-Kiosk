@@ -36,6 +36,8 @@ package app.view
 			{
 				var bd:BitmapData = Model.instance.mainSlideImages[i] as BitmapData;
 				var image:Bitmap = new Bitmap(bd, "auto", true);
+				image.width = 1080;
+				image.height = 581;
 				image.x = 1080 * i;
 				addChild(image);
 				

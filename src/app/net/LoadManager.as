@@ -3,6 +3,7 @@ package app.net
 	import app.Application;
 	import app.model.Brand;
 	import app.model.FloorName;
+	import app.model.Food;
 	import app.model.Language;
 	import app.model.Model;
 	import app.model.ShoppingInfo;
@@ -30,7 +31,7 @@ package app.net
 	{
 		public static const COMPLETE:String = "complete";
 		
-		private var _jsons:Array = ["configure", "brand", "ranking", "shopping_info", "main_slide"];
+		private var _jsons:Array = ["configure", "brand", "ranking", "shopping_info", "main_slide", "gourmet_slide", "only_galleria", "menu", "tasty_chart"];
 		private var _jsonUrls:Array = [];
 		
 		public function LoadManager() 
@@ -70,6 +71,8 @@ package app.net
 		
 		private function onCompleteJSON(e:Event):void 
 		{
+			var i:int;
+			
 			Application.instance.logger.log("Loaded JSON Data");
 		
 			var multiLoader:MultiLoader = e.target as MultiLoader;
@@ -83,11 +86,14 @@ package app.net
 			
 			//brand
 			var brands:Array = JSON.parse(String(multiLoader.getItemContent(1))).items;
-			for (var i:int = 0; i < brands.length; i++) 
+			var brandMap:Object = { };
+			for (i = 0; i < brands.length; i++) 
 			{
-				var obj:Object = brands[i];
-				var brand:Brand = new Brand(obj);
+				var brandObj:Object = brands[i];
+				var brand:Brand = new Brand(brandObj);
 				Model.instance.brands.push(brand);
+				
+				brandMap[brandObj.iditem] = brand;
 			}
 			Model.instance.setCategories();	//카테고리별로 브랜드를 미리 계산해 저장
 			
@@ -104,24 +110,87 @@ package app.net
 			Model.instance.shoppingInfos = infoItems;
 			
 			//main_slide
-			trace( "String(multiLoader.getItemContent(4)) : " + String(multiLoader.getItemContent(4)) );
 			var slideImages:Array = JSON.parse(String(multiLoader.getItemContent(4))).images;
-			loadDynamicImages(slideImages);
+			
+			//gourmet_slide
+			var gourmetSlideImages:Array = JSON.parse(String(multiLoader.getItemContent(5))).images;
 			
 			
+			//only_galleria
+			var onlyGalleriaItems:Array = JSON.parse(String(multiLoader.getItemContent(6))).items;
+			
+			//food menu
+			var foods:Array = JSON.parse(String(multiLoader.getItemContent(7))).items;
+			for (i = 0; i < foods.length; i++) 
+			{
+				var foodObj:Object = foods[i];
+				var b:Brand = brandMap[foodObj.idbrand];
+				foodObj.category = b.data.category;
+				b.data.isFoodStore = true;	//지하 음식매장인경우 (Gourmet494)
+				
+				var food:Food = new Food(foodObj);
+				Model.instance.foods.push(food);
+			}
+			
+			//tasty_chart
+			var charts:Array = JSON.parse(String(multiLoader.getItemContent(8))).items;
+			var newCharts:Array = [];
+			var now:Date = new Date();
+			var year:int = now.getFullYear();
+			var month:int = now.getMonth() + 1;
+			
+			for (i = 0; i < charts.length; i++) 
+			{
+				var chartItem:Object = charts[i];
+				chartItem.year = int(chartItem.year);
+				chartItem.month = int(chartItem.month);
+				
+				if (chartItem.year * 100 + chartItem.month < year * 100 + month)
+				{
+					newCharts.push(chartItem);
+				}
+				
+			}
+			Model.instance.tastyCharts = newCharts;
+			
+			var obj:Object = { };
+			obj.slideImages = slideImages;
+			obj.gourmetSlideImages = gourmetSlideImages;
+			obj.onlyGalleriaItems = onlyGalleriaItems;
+			loadDynamicImages(obj);
 		}
 		
-		private function loadDynamicImages(slideImages:Array):void
+		private function loadDynamicImages(obj:Object):void
 		{
 			var multiLoader:MultiLoader = new MultiLoader();			
 			
-			for (var i:int = 0; i < slideImages.length; i++) 
+			for (var i:int = 0; i < obj.slideImages.length; i++) 
 			{
-				multiLoader.addTask(slideImages[i], "slideImage"+i, MultiLoader.MOVIE);
+				multiLoader.addTask(obj.slideImages[i], "mainSlideImage_"+i, MultiLoader.MOVIE);
 				
 				//Application.instance.logger.log("Start Loading Static Image [" + url +"]");
 			}
 
+			for (i = 0; i < obj.gourmetSlideImages.length; i++) 
+			{
+				multiLoader.addTask(obj.gourmetSlideImages[i], "gourmetSlideImage_"+i, MultiLoader.MOVIE);
+				
+			}
+			
+			var item:Object;
+			var lang:Array = Language.all;
+			for (i = 0; i < obj.onlyGalleriaItems.length; i++) 
+			{
+				item = obj.onlyGalleriaItems[i];
+				
+				for (var j:int = 0; j < 4; j++) 
+				{
+					multiLoader.addTask(item.thumbnail[lang[j]], "onlyGalleriaItems_thumbnail_"+lang[j]+"_"+i, MultiLoader.MOVIE);
+					multiLoader.addTask(item.text[lang[j]], "onlyGalleriaItems_text_"+lang[j]+"_"+i, MultiLoader.MOVIE);
+					multiLoader.addTask(item.image[lang[j]], "onlyGalleriaItems_image_"+lang[j]+"_"+i, MultiLoader.MOVIE);
+				}
+			}
+			
 			multiLoader.addEventListener(Event.COMPLETE, onCompleteDynamicImages);
 			multiLoader.start();
 		}
@@ -129,17 +198,43 @@ package app.net
 		private function onCompleteDynamicImages(e:Event):void 
 		{
 			var multiLoader:MultiLoader = e.target as MultiLoader;
+			var loader:Loader;
+			var name:String;
+			var id:int;
+			var arr:Array;
 			
 			for (var i:int = 0; i < multiLoader.length; i++) 
 			{
-				var loader:Loader = Loader(multiLoader.getItemContent(i));
+				loader = Loader(multiLoader.getItemContent(i));
+				name = multiLoader.getItemRegistrationName(i);
+				
 				if (loader == null)
 				{
-					trace( "name : " + multiLoader.getItemRegistrationName(i) );
+					trace( "name : " +  name);
 				}
+
 				var image:BitmapData = creatBitmapData(loader);
 				
-				Model.instance.mainSlideImages[i] = image;
+				if (name.indexOf("mainSlideImage") != -1)
+				{
+					id = int(name.split("_")[1]);
+					Model.instance.mainSlideImages[id] = image;
+				}
+				else if (name.indexOf("gourmetSlideImage") != -1)
+				{
+					id = int(name.split("_")[1]);
+					Model.instance.gourmetSlideImages[id] = image;
+				}
+				else if (name.indexOf("onlyGalleriaItems") != -1)
+				{
+					arr = name.split("_");
+					id = arr[3];
+					
+					if (!Model.instance.onlyGalleriaItems[id]) Model.instance.onlyGalleriaItems[id] = { };
+					
+					Model.instance.onlyGalleriaItems[id][arr[1] + "@" + arr[2]] = image;
+					
+				}
 			}
 			
 			multiLoader.removeEventListener(Event.COMPLETE, onCompleteDynamicImages);
@@ -254,9 +349,14 @@ package app.net
 		{
 			//return loader.content as Bitmap;	//테스트용
 			
-			var bd:BitmapData = new BitmapData(loader.width, loader.height, true, 0);
-			bd.draw(loader.content,null,null,null,null, true);
-			return bd;
+			var bitmap:Bitmap = loader.content as Bitmap;
+			return bitmap.bitmapData;
+
+			//return new BitmapData(0, 0);
+			
+			//var bd:BitmapData = new BitmapData(loader.width, loader.height, true, 0);
+			//bd.draw(loader.content,null,null,null,null, true);
+			//return bd;
 		}
 	}
 

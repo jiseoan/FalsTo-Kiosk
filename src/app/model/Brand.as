@@ -59,9 +59,13 @@ package app.model
 			loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, onCompleteImage);
 			loader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, onIOErrorImage);
 			
-			var bd:BitmapData = new BitmapData(loader.width, loader.height, true, 0);
-			bd.draw(loader.content, null, null, null, null, true);
-			image = new Bitmap(bd, "auto", true);
+			//var bd:BitmapData = new BitmapData(loader.width, loader.height, true, 0);
+			//bd.draw(loader.content, null, null, null, null, true);
+			//image = new Bitmap(bd, "auto", true);
+			
+			image = loader.content as Bitmap;
+			image.width = 227;
+			image.height = 227;
 		}
 		
 	}

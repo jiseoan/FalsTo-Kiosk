@@ -4,7 +4,6 @@ package app.view
 	import app.model.Language;
 	import app.model.Model;
 	import app.view.common.ImageBox;
-	import app.view.common.Navigator;
 	import app.view.common.Pagination;
 	import flash.display.Shape;
 	import flash.display.Sprite;
@@ -22,7 +21,6 @@ package app.view
 		private var _searchWindow:SearchWindow;
 		private var _brandList:BrandList;
 		private var _alert:ImageBox;
-		private var _navigator:Navigator;
 		
 		public function BrandView() 
 		{
@@ -35,9 +33,6 @@ package app.view
 			
 			var title:ImageBox = new ImageBox("title_brand_search", true);
 			addChild(title);
-			
-			_navigator = new Navigator();
-			addChild(_navigator);
 			
 			_searchWindow = new SearchWindow();
 			_searchWindow.y = 420;

@@ -26,6 +26,7 @@ package app.view.floorView
 			_boundaryH = boundaryH;
 			
 			var bg:ImageBox = new ImageBox("scroll_bg");
+			bg.height = _boundaryH;
 			addChild(bg);
 			
 			_handle = new Button([new ImageBox("handle"), new ImageBox("handle_press")]);
@@ -37,7 +38,7 @@ package app.view.floorView
 		
 		private function onDown(e:MouseEvent):void 
 		{
-			_handle.startDrag(false, new Rectangle(0, 0, 0, 494-_handle.height));
+			_handle.startDrag(false, new Rectangle(0, 0, 0, _boundaryH-_handle.height));
 			
 			addEventListener(Event.ENTER_FRAME, loop);
 			stage.addEventListener(MouseEvent.MOUSE_UP, onUp);
@@ -45,7 +46,7 @@ package app.view.floorView
 		
 		private function loop(e:Event):void 
 		{
-			var ratio:Number = _handle.y / (494 - _handle.height);
+			var ratio:Number = _handle.y / (_boundaryH - _handle.height);
 			_target.y = -(_target.height - _boundaryH) * ratio;
 		}
 		

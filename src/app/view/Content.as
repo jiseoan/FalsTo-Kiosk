@@ -3,6 +3,7 @@ package app.view
 	import app.Application;
 	import app.model.Model;
 	import app.view.floorView.FloorView;
+	import app.view.gourmet494.GourmetView;
 	import com.greensock.TweenMax;
 	import flash.display.DisplayObject;
 	import flash.display.Shape;
@@ -32,15 +33,8 @@ package app.view
 			addChild(_menu);
 		}
 		
-		public function changeView(mode:int):void
+		public function changeView(mode:int, subMode:int=0):void
 		{
-			if (mode == 6)
-			{
-				Application.instance.langWindow.open();
-				return;
-			}
-			
-			
 			var nextView:IView;
 			
 			if 		(mode == 1) nextView = new FloorView() as IView;
@@ -48,6 +42,7 @@ package app.view
 			else if (mode == 3) nextView = new BrandView() as IView;
 			else if (mode == 4) nextView = new RankingView() as IView;
 			else if (mode == 5) nextView = new ShoppingInfoView() as IView;
+			else if (mode == 6) nextView = new GourmetView(subMode) as IView;
 			
 			
 			
@@ -58,7 +53,7 @@ package app.view
 			}
 			_curView = nextView;
 			addChild(_curView as Sprite);
-			
+			addChild(_menu);
 
 			
 			

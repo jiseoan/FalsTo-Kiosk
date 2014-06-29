@@ -9,6 +9,7 @@ package app.view.window
 	import app.view.common.TextMaskSlider;
 	import app.view.floorView.FloorView;
 	import app.view.floorView.LocationWindow;
+	import app.view.gourmet494.MenuWindow;
 	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -23,6 +24,7 @@ package app.view.window
 		
 		private var _brand:Brand;
 		private var _btn:Button;
+		private var _menuBtn:Button;
 		private var _scroller:Scroller;
 		
 		public function BrandInfoWindowBody() 
@@ -37,8 +39,6 @@ package app.view.window
 			_btn.y = pos.y;
 			addChild(_btn);
 			
-			
-			
 			thumbContainer.visible = false;
 			
 			_scroller = new Scroller(descTF, textMask.height);
@@ -48,8 +48,16 @@ package app.view.window
 			
 			_btn.addEventListener(MouseEvent.CLICK, onClick);
 			
+			
 			addEventListener(Event.ADDED_TO_STAGE, init);
+			
+			_menuBtn = new Button([new ImageBox("btn_menu"), new ImageBox("btn_menu_press")]);
+			_menuBtn.x = _btn.x + _btn.width + 10;
+			_menuBtn.y = _btn.y;
+			addChild(_menuBtn);
+			_menuBtn.addEventListener(MouseEvent.CLICK, onClickMenuBtn);	
 		}
+		
 		
 		private function init(e:Event):void 
 		{
@@ -61,6 +69,12 @@ package app.view.window
 		{
 			var locationWindow:LocationWindow = new LocationWindow(_brand);
 			locationWindow.open();
+		}
+		
+		private function onClickMenuBtn(e:MouseEvent):void 
+		{
+			var menuWindow:MenuWindow = new MenuWindow(_brand);
+			menuWindow.open();
 		}
 		
 		public function update(brand:Brand):void
@@ -105,6 +119,16 @@ package app.view.window
 			}
 			
 			descTF.y = 661;
+			
+			
+			if (_brand.data.isFoodStore)
+			{
+				_menuBtn.visible = true;
+			}
+			else
+			{
+				_menuBtn.visible = false;
+			}
 		}
 		
 		

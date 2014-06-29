@@ -68,6 +68,11 @@ package app.view
 			
 			for (var i:int = 0; i < _shoppingInfos.length; i++) 
 			{
+				if (_shoppingInfos[i].data.ticker[Language.KOREAN] =="")
+				{
+					continue;
+				}
+				
 				var item:Sprite = new Sprite();
 				var info:ShoppingInfo = _shoppingInfos[i];
 				var tf:TextField = new TextField();
@@ -89,9 +94,11 @@ package app.view
 				
 				item.buttonMode = true;
 				item.mouseChildren = false;
-				item.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+				
 				item.addEventListener(MouseEvent.CLICK, click);
 			}
+			
+			_container.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 			
 			_totalWidth = tx;
 			
@@ -108,9 +115,11 @@ package app.view
 			for (var i:int = 0; i < _items.length; i++) 
 			{
 				var item:Sprite = _items[i];
-				item.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+				
 				item.removeEventListener(MouseEvent.CLICK, click);
 			}
+			
+			_container.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 		
 		private function onTransition(e:Event):void 
@@ -130,13 +139,11 @@ package app.view
 			if (!_active) return;
 			
 			var item:Sprite = e.target as Sprite;
-			item.x -= 2;
+			_container.x -= 2;
 			
-			if (item.x + item.width < 0)
+			if (_container.x + _container.width  < 188)
 			{
-				var tx:Number = item.x + _totalWidth;
-				if (tx < _tickerMask.width) tx = _tickerMask.width;
-				item.x = tx;
+				_container.x = 188 + 800;
 			}
 		}
 		

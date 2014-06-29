@@ -3,7 +3,6 @@ package app.view
 	import app.controller.ScreenSaverController;
 	import app.model.Model;
 	import app.view.common.ImageBox;
-	import app.view.common.Navigator;
 	import app.view.common.Pagination;
 	import com.greensock.TweenMax;
 	import com.greensock.TweenNano;
@@ -18,7 +17,6 @@ package app.view
 	{
 		private var _table:ShoppingInfoTable;
 		private var _pagination:Pagination;
-		private var _navigator:Navigator;
 		private var _videoPlayer:VideoPlayer;
 		
 		public function ShoppingInfoView() 
@@ -31,6 +29,7 @@ package app.view
 			
 			
 			var totalPages:int = Math.floor((Model.instance.shoppingInfos.length - 1) / 4) + 1;
+			trace( "(Model.instance.shoppingInfos.length : " + (Model.instance.shoppingInfos.length ));
 			_pagination = new Pagination(totalPages);
 			_pagination.y = 1450;
 			
@@ -40,9 +39,6 @@ package app.view
 			
 			addChild(_table);
 			addChild(_pagination);
-			
-			_navigator = new Navigator();
-			addChild(_navigator);
 			
 			if (Model.instance.screensaverMode)
 			{
@@ -79,7 +75,7 @@ package app.view
 		
 		public function destroy():void 
 		{
-			
+			Model.instance.fromGourmetView = false;
 		}
 		
 		public function get table():ShoppingInfoTable 

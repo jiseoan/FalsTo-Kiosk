@@ -16,7 +16,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'2014-04-06'</value>
+      <value>'2014-06-26'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -32,17 +32,17 @@
     </define>
     <verbose-stacktraces>true</verbose-stacktraces>
     <source-path append="true">
-      <path-element>D:\Documents\지서안(Baidu)\프로젝트\P140003-압구정갤러리아 명품관 컨텐츠(티원시스템즈)\산출물\2014.04.03-최종결과 v1.0\소스코드및DB\GalleriaKiosk v1.0\src</path-element>
-      <path-element>D:\Documents\프로그램\FlashDevelop-4.5.2\Library\AS3\classes</path-element>
+      <path-element>C:\work\Galleria\develop\GalleriaKiosk\src</path-element>
+      <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
-      <path-element>D:\Documents\지서안(Baidu)\프로젝트\P140003-압구정갤러리아 명품관 컨텐츠(티원시스템즈)\산출물\2014.04.03-최종결과 v1.0\소스코드및DB\GalleriaKiosk v1.0\lib\sharedFont.swc</path-element>
-      <path-element>D:\Documents\지서안(Baidu)\프로젝트\P140003-압구정갤러리아 명품관 컨텐츠(티원시스템즈)\산출물\2014.04.03-최종결과 v1.0\소스코드및DB\GalleriaKiosk v1.0\lib\greensock.swc</path-element>
-      <path-element>D:\Documents\지서안(Baidu)\프로젝트\P140003-압구정갤러리아 명품관 컨텐츠(티원시스템즈)\산출물\2014.04.03-최종결과 v1.0\소스코드및DB\GalleriaKiosk v1.0\lib\assets.swc</path-element>
+      <path-element>C:\work\Galleria\develop\GalleriaKiosk\lib\sharedFont.swc</path-element>
+      <path-element>C:\work\Galleria\develop\GalleriaKiosk\lib\greensock.swc</path-element>
+      <path-element>C:\work\Galleria\develop\GalleriaKiosk\lib\assets.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>D:\Documents\지서안(Baidu)\프로젝트\P140003-압구정갤러리아 명품관 컨텐츠(티원시스템즈)\산출물\2014.04.03-최종결과 v1.0\소스코드및DB\GalleriaKiosk v1.0\src\Main.as</path-element>
+    <path-element>C:\work\Galleria\develop\GalleriaKiosk\src\GourmetMain.as</path-element>
   </file-specs>
   <default-background-color>#000000</default-background-color>
   <default-frame-rate>60</default-frame-rate>

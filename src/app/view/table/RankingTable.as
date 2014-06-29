@@ -49,7 +49,7 @@ package app.view.table
 			}
 			
 			
-			floorMC.gotoAndStop(FloorName.name.indexOf(ranking.floor));
+			floorMC.gotoAndStop(FloorName.name.indexOf(ranking.floor)+1);
 			titleTF.text = ranking.category;
 			TextFormatter.setTextFormat(titleTF, 0x444444, 32, YoonGothic145, "center");
 			titleTF.x = 460 - titleTF.width / 2;
@@ -111,7 +111,7 @@ package app.view.table
 				
 				if (i < _ranking.list.length)
 				{
-					TweenMax.to(row, 0.3, { alpha:1, y:row.oy, delay:0.5 + i * 0.05 } );
+					TweenMax.to(row, 0.3, { alpha:1, y:row.oy, delay:0.7 + i * 0.05 } );
 				}
 				
 			}

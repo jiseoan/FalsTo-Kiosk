@@ -73,7 +73,7 @@ package app.view.common
 		
 		private function onClickPrevBtn(e:Event):void 
 		{
-			var page:int = (_curGroup-2) * 5 + 1;
+			var page:int = (_curGroup-2) * 5 + 5;
 			update(page, _totalPages);
 		}
 		
@@ -127,19 +127,19 @@ package app.view.common
 			}
 			
 			_prevBtn.alpha = 1;
-			_prevBtn.mouseEnabled = true;
+			_prevBtn.up();
 			_nexBtn.alpha = 1;
-			_nexBtn.mouseEnabled = true;
+			_nexBtn.up();
 				
 			if (_curGroup == 1)
 			{
 				_prevBtn.alpha = 0.5;
-				_prevBtn.mouseEnabled = false;
+				_prevBtn.disable();
 			}
 			if (_curGroup == _totalGroups)
 			{
 				_nexBtn.alpha = 0.5;
-				_nexBtn.mouseEnabled = false;
+				_nexBtn.disable();
 			}
 			
 			_nexBtn.x = 61 + (lastBtnId - 1) * 61 + 61;

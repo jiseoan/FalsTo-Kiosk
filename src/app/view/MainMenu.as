@@ -49,6 +49,19 @@ package app.view
 			var image:ImageBox = new ImageBox("main_menu", true);
 			image.mouseEnabled = false;
 			addChild(image);
+			
+			var languageBtn:Sprite = new Sprite();
+			languageBtn.graphics.beginFill(0xFFFFFF, 0);
+			languageBtn.graphics.drawRect(0, 0, 200, 90);
+			languageBtn.x = 880;
+			addChild(languageBtn);
+			
+			languageBtn.addEventListener(MouseEvent.CLICK, onClickLanguageBtn);
+		}
+		
+		private function onClickLanguageBtn(e:MouseEvent):void 
+		{
+			Application.instance.langWindow.open();
 		}
 		
 		private function onMouseOut(e:MouseEvent):void 
@@ -64,7 +77,7 @@ package app.view
 			var t:ImageBox = e.target as ImageBox;
 			var id:int = _btns.indexOf(t)+1;
 			
-			if (id == 6) 
+			if (id == 7) 
 			{
 				Application.instance.langWindow.open();
 			}

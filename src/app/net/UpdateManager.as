@@ -56,7 +56,7 @@ package app.net
 		{
 			var loader:URLLoader = e.target as URLLoader;
 			var data:Object = JSON.parse(loader.data);
-			trace( "data.releaseno : " + data.releaseno );
+			//trace( "data.releaseno : " + data.releaseno );
 			
 			if (_isFirst)
 			{

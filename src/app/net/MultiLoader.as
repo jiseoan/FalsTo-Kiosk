@@ -212,8 +212,8 @@ package app.net
 				break;
 			}
 			
-			Application.instance.logger.log(getItemURL(_currentIndex));
-			
+			//Application.instance.logger.log(getItemURL(_currentIndex));
+			trace(getItemURL(_currentIndex));
 			setItemStatus(_currentIndex, STATUS_COMPLETE);
 			dispatchEvent(new Event(ITEM_COMPLETE));
 		}

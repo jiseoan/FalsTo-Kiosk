@@ -99,7 +99,7 @@ package app.view.floorView
 				ty = sItem.y + 62;
 			}
 			
-			if (_container.height <= 494)
+			if (_container.height <= _container.mask.height)
 			{
 				_scroller.visible = false;
 			}

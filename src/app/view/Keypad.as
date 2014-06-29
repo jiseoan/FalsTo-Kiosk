@@ -171,34 +171,34 @@ package app.view
 		{
 			gotoAndStop(frame);
 			
-			var keyText:ImageBox;
-			
-			if (!_keyTexts[frame-1])
-			{
-				keyText = new ImageBox("key" + frame, true);
-				keyText.mouseEnabled = false;
-				addChild(keyText);
-				
-				_keyTexts[frame-1] = keyText;
-			}
-			
-			for (var i:int = 0; i < 3; i++) 
-			{
-				keyText = _keyTexts[i];
-				if (keyText)
-				{
-					if (i == frame-1)
-					{
-						keyText.visible = true;
-						addChild(keyText);
-					}
-					else
-					{
-						keyText.visible = false;
-					}
-				}
-			}
-			
+			//var keyText:ImageBox;
+			//
+			//if (!_keyTexts[frame-1])
+			//{
+				//keyText = new ImageBox("key" + frame, true);
+				//keyText.mouseEnabled = false;
+				//addChild(keyText);
+				//
+				//_keyTexts[frame-1] = keyText;
+			//}
+			//
+			//for (var i:int = 0; i < 3; i++) 
+			//{
+				//keyText = _keyTexts[i];
+				//if (keyText)
+				//{
+					//if (i == frame-1)
+					//{
+						//keyText.visible = true;
+						//addChild(keyText);
+					//}
+					//else
+					//{
+						//keyText.visible = false;
+					//}
+				//}
+			//}
+			//
 			
 		}
 		

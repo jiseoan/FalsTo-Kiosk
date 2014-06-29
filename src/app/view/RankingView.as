@@ -3,7 +3,6 @@ package app.view
 	import app.controller.ScreenSaverController;
 	import app.model.Model;
 	import app.view.common.ImageBox;
-	import app.view.common.Navigator;
 	import app.view.table.RankingTable;
 	import com.greensock.TweenNano;
 	import flash.display.Sprite;
@@ -19,7 +18,6 @@ package app.view
 	{
 		private var _curTable:RankingTable;
 		private var _nextTable:RankingTable;
-		private var _navigator:Navigator;
 		
 		private var _rankings:Array;
 		
@@ -57,9 +55,6 @@ package app.view
 			addChild(_curTable);
 			
 			_curTable.show();
-			
-			_navigator = new Navigator();
-			addChild(_navigator);
 			
 			if (_rankings.length > 1)
 			{

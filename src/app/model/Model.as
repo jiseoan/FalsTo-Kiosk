@@ -16,14 +16,16 @@ package app.model
 	public class Model extends EventDispatcher 
 	{
 		public static const UPDATE_MODE:String = "upateMode";
+		public static const UPDATE_GOURMET_MODE:String = "upateGourmetMode";
 		public static const CHANGE_LANGUAGE:String = "changeLanguage";
 		public static const COMPLETE_SEARCH:String = "completeSearch";
+		public static const COMPLETE_SEARCH_FOOD:String = "completeSearchFood";
 		
 		private static var _instance:Model;
 		
-		private var c_top:Array = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ'];
-		
 		private var _mode:int = 0;
+		private var _gourmetMode:int = 0;
+		
 		private var _lang:String = Language.KOREAN;
 		
 		public var screensaverMode:Boolean;
@@ -33,11 +35,13 @@ package app.model
 		
 		public var appid:String;
 		public var brands:Array = [];
+		public var foods:Array = [];
 		public var rankings:Array = [];
 		private var _shoppingInfos:Array = [];
 		
 		public var searchWord:String;
 		public var searchedBrands:Array = [];
+		public var searchedFoods:Array = [];
 		
 		public var staticImages:Object = { };
 		
@@ -45,9 +49,18 @@ package app.model
 		
 		private var _categoryBrands:Object = { };		//카테고리별로 브랜드를 미리 계산해 저장
 		private var _categoryNames:Object = { };
+		
 		private var _prevView:IView;
 		private var _curView:IView;
 		
+		public var floorViewInitObj:Object = null;
+		
+		//gourmet494관련 데이터
+		public var gourmetSlideImages:Array = [];
+		public var onlyGalleriaItems:Array = [];
+		public var tastyCharts:Array = [];
+		
+		public var fromGourmetView:Boolean = false;
 		
 		
 		public function Model() 
@@ -55,7 +68,21 @@ package app.model
 			
 		}
 		
-		
+		public function getBrandById(id:String):Brand
+		{
+			
+			var n:int = brands.length;
+			for (var i:int = 0; i < n; i++) 
+			{
+				var brand:Brand = brands[i];
+				if (brand.data.iditem == id)
+				{
+					return brand;
+				}
+			}
+			
+			return null;
+		}
 		
 		public function getBrandsByHallFloor(hall:String, floor:String):Array
 		{
@@ -140,6 +167,24 @@ package app.model
 			return output;
 		}
 		
+		public function getAllFoodCategory():Array
+		{
+			var output:Array = [];
+			
+			var leng:int = foods.length;
+			
+			for (var i:int = 0; i < leng; i++) 
+			{
+				var food:Food = foods[i];
+				if (output.indexOf(food.data.category)==-1)
+				{
+					output.push(food.data.category);
+				}
+			}
+			
+			return output;
+		}
+		
 		public function setCategories():void
 		{
 			var output:Array = [];
@@ -164,6 +209,7 @@ package app.model
 				
 			}
 		}
+
 		
 		public function getCategoryBrandsByHallFloor(hall:String, floor:String):Array
 		{
@@ -174,9 +220,6 @@ package app.model
 		
 		public function getCategoryNamesByHallFloor(hall:String, floor:String):Array
 		{
-			trace( "hall : " + hall );
-			trace( "floor : " + floor );
-			trace( "hall + floor : " + (hall + floor) );
 			var output:Array = _categoryNames[hall + floor];
 			if (!output) output = [];
 			return output;
@@ -201,6 +244,25 @@ package app.model
 			dispatchEvent(new Event(Model.COMPLETE_SEARCH));
 		}
 		
+		public function searchFoodsByCategory(category:String):void
+		{
+			searchedFoods = [];
+			
+			var leng:int = foods.length;
+			
+			for (var i:int = 0; i < leng; i++) 
+			{
+				var food:Food = foods[i];
+				if (food.data.category == category)
+				{
+					searchedFoods.push(food);
+				}
+			}
+			
+			
+			dispatchEvent(new Event(Model.COMPLETE_SEARCH_FOOD));
+		}
+		
 		public function searchBrands(keyword:String):void
 		{
 			searchWord = keyword;
@@ -217,7 +279,7 @@ package app.model
 			for (var i:int = 0; i < brands.length; i++) 
 			{
 				var brand:Brand = brands[i] as Brand;
-				if (brand.data.name.eng.search(keyword) >= 0 || lookupKor(keyword, brand.data.name.kor) || lookupKor(keyword, brand.data.tag))
+				if (brand.data.name.eng.search(keyword) >= 0 || Searcher.search(keyword, brand.data.name.kor) || Searcher.search(keyword, brand.data.tag))
 				{
 					searchedBrands.push(brand);
 				}
@@ -226,67 +288,36 @@ package app.model
 			dispatchEvent(new Event(Model.COMPLETE_SEARCH));
 		}
 		
-		private function lookupKor(exp:String, src:String):Boolean {
-		   if (src.search(exp) >= 0) {
-				  return true;
-		   }
-		  
-		   var i:int = lookupKorFirst(exp, src);
-		   if (i < 0 || src.length - i < exp.length) {
-				  return false;
-		   }
-		  
-		   var k:int = 1;
-		   for (i++ ; k < exp.length && i < src.length ; k++, i++) {
-				  if (src.charAt(i) == exp.charAt(k)) {
-						  continue;
-				  }
-				  var idx:int = src.charCodeAt(i) - 44032;
-				  if (idx < 0 || idx >= 11172) {
-						  return false;
-				  }
-				 
-				  idx /= 588;
-				  if (idx < 0 && idx >= c_top.length) {
-						  return false;
-				  }
-				 
-				  for (var j:int = 0 ; j < c_top.length ; j++) {
-					  if (c_top[idx] != exp.charAt(k)) {
-							 return false;
-					  }
-				  }
-			}
-		  
-		   return true;
-		}
-		
-		private function lookupKorFirst(exp:String, src:String):int
+		public function searchFoods(keyword:String):void
 		{
-			for (var i:int = 0; i < src.length; i++)
+			searchWord = keyword;
+			
+			if (keyword == "")
 			{
-				var idx:int = src.charCodeAt(i) - 44032;
-				if (idx >= 0 && idx < 11172)
+				searchedFoods = foods.concat();
+				dispatchEvent(new Event(Model.COMPLETE_SEARCH_FOOD));
+				return;
+			}
+			
+			searchedFoods = [];
+			
+			for (var i:int = 0; i < foods.length; i++) 
+			{
+				var food:Food = foods[i] as Food;
+				if (food.data.name.eng.search(keyword) >= 0 || Searcher.search(keyword, food.data.name.kor) || Searcher.search(keyword, food.data.tag))
 				{
-					idx /= 588;
-					if (idx >= 0 && idx < c_top.length)
-					{
-						for (var j:int = 0; j < c_top.length; j++)
-						{
-							if (c_top[idx] == exp.charAt(0))
-							{
-								return i;
-							}
-						}
-					}
+					searchedFoods.push(food);
 				}
 			}
-			return -1;
+			
+			dispatchEvent(new Event(Model.COMPLETE_SEARCH_FOOD));
 		}
-		
+
+		//TODO
 		public function destroy():void
 		{
 			var i:int;
+			var bd:BitmapData;
 			
 			for (i = 0; i < brands.length; i++) 
 			{
@@ -296,7 +327,7 @@ package app.model
 			
 			for (i = 0; i < mainSlideImages.length; i++) 
 			{
-				var bd:BitmapData = mainSlideImages[i] as BitmapData;
+				bd = mainSlideImages[i] as BitmapData;
 				bd.dispose();
 			}
 			
@@ -316,6 +347,12 @@ package app.model
 			{
 				var bmd:BitmapData = staticImages[name];
 				bmd.dispose();
+			}
+			
+			for (i = 0; i < gourmetSlideImages.length; i++) 
+			{
+				bd = gourmetSlideImages[i] as BitmapData;
+				bd.dispose();
 			}
 			
 			_instance = null;
@@ -354,15 +391,15 @@ package app.model
 			_prevView = value;
 		}
 		
-		public function get curView():IView 
-		{
-			return _curView;
-		}
-		
-		public function set curView(value:IView):void 
-		{
-			_curView = value;
-		}
+		//public function get curView():IView 
+		//{
+			//return _curView;
+		//}
+		//
+		//public function set curView(value:IView):void 
+		//{
+			//_curView = value;
+		//}
 		
 		public function get lang():String 
 		{
@@ -384,30 +421,83 @@ package app.model
 		
 		public function get shoppingInfos():Array 
 		{
-			var infos:Array = _shoppingInfos.concat();
+			var output:Array = [];
+			var info:ShoppingInfo;
 			
 			//개시기간을 체크하여 지난 쇼핑인포 아이템를 제거
-			for (var i:int = 0; i < infos.length; i++) 
+			for (var i:int = 0; i < _shoppingInfos.length; i++) 
 			{
-				var info:ShoppingInfo = infos[i];
+				info = _shoppingInfos[i];
+				
 				var begin:Date = getDate(info.data["post-begin"]);
 				var end:Date = getDate(info.data["post-end"]);
 				var now:Date = new Date();
 				
-				if (now.getTime()<begin.getTime() || now.getTime()>end.getTime())
+				if (now.getTime()>begin.getTime() && now.getTime()<end.getTime())
 				{
-					infos.splice(i, 1);
+					output.push(_shoppingInfos[i]);
 				}
 			}
 			
-			return infos;
+			//Gourmet에서 쇼핑뷰로 이동했을 경우
+			if (fromGourmetView)
+			{
+				var site1:Array = [];
+				var site2:Array = [];	//gourmet494관련된 쇼핑인포 저장(site == 2)
+				
+				for (var j:int = 0; j < output.length; j++) 
+				{
+					info = output[j];
+					if (info.data.site == "2")
+					{
+						site2.push(info);
+					}
+					else
+					{
+						site1.push(info);
+					}
+				}
+				
+				return site2.concat(site1);
+			}
+			else
+			{
+				return output;
+			}
+			
+			
 		}
 		
 		public function set shoppingInfos(value:Array):void 
 		{
 			_shoppingInfos = value;
 		}
+		
+		public function get gourmetMode():int 
+		{
+			return _gourmetMode;
+		}
+		
+		public function set gourmetMode(value:int):void 
+		{
+			trace( "value : " + value );
+			//if (value == 0)
+			//{
+				//_gourmetMode = 0;
+				//return;
+			//}
+			
+			if (_gourmetMode == value) return;
+			
+			_gourmetMode = value;
+			dispatchEvent(new Event(Model.UPDATE_GOURMET_MODE));
+		}
 
+		public function syncGourmetMode(value:int):void
+		{
+			_gourmetMode = value;
+		}
+		
 		private function getDate(s:String):Date
 		{
 			var arr:Array = s.split(" ");

@@ -55,9 +55,13 @@ package app.model
 			loader.contentLoaderInfo.removeEventListener(Event.COMPLETE, onCompleteThumbnail);
 			loader.contentLoaderInfo.removeEventListener(IOErrorEvent.IO_ERROR, onIOErrorImage);
 			
-			var bd:BitmapData = new BitmapData(loader.width, loader.height, true, 0);
-			bd.draw(loader.content, null, null, null, null, true);
-			thumbnail = new Bitmap(bd, "auto", true);
+			//var bd:BitmapData = new BitmapData(loader.width, loader.height, true, 0);
+			//bd.draw(loader.content, null, null, null, null, true);
+			//thumbnail = new Bitmap(bd, "auto", true);
+			
+			thumbnail = loader.content as Bitmap;
+			thumbnail.width = 380;
+			thumbnail.height = 277;
 		}
 		
 		private function loadDetailImages():void
@@ -85,22 +89,16 @@ package app.model
 				{
 					trace( "ShoppingInfo : " + multiLoader.getItemRegistrationName(i) );
 				}
-				var image:Bitmap = creatBitmap(loader);
-				
+				var image:Bitmap = loader.content as Bitmap;
+				image.width = 920;
+				image.height = 1171;
 				detailImages[i] = image;
 			}
 			
 			multiLoader.removeEventListener(Event.COMPLETE, onCompleteDetailImages);
 		}
 		
-		private function creatBitmap(loader:Loader, transparent:Boolean=true):Bitmap
-		{
-			//return loader.content as Bitmap;	//테스트용
-			
-			var bd:BitmapData = new BitmapData(loader.width, loader.height, true, 0);
-			bd.draw(loader.content,null,null,null,null, true);
-			return new Bitmap(bd, "auto", true);
-		}
+
 	}
 
 }

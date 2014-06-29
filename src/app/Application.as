@@ -6,6 +6,7 @@ package app
 	import app.net.UpdateManager;
 	import app.text.TextFormatter;
 	import app.view.common.ImageBox;
+	import app.view.common.Navigator;
 	import app.view.Content;
 	import app.view.Header;
 	import app.view.HomeView;
@@ -38,6 +39,7 @@ package app
 		public var content:Content;
 		public var proxy:TransitionProxy;
 		public var dimBox:Sprite;
+		public var navigator:Navigator;
 		
 		public var langWindow:LanguageWindow;
 		
@@ -85,7 +87,8 @@ package app
 			footer.y = 1852;
 			addChild(footer);
 			
-			
+			navigator = new Navigator();
+			addChild(navigator);
 			
 			removeChild(_logger);
 			_logger = null;
