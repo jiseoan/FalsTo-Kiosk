@@ -45,7 +45,7 @@ package app.view
 			addChild(_video);
 			
 			
-			ns.play("images/dynamic/videos/WEST RE-OPEN_1080x1589.f4v"); 
+			ns.play(Model.instance.videos[0]); 
 
 			
 			function metaDataHandler(infoObject:Object):void {

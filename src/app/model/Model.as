@@ -37,6 +37,7 @@ package app.model
 		public var brands:Array = [];
 		public var foods:Array = [];
 		public var rankings:Array = [];
+		public var videos:Array = [];
 		private var _shoppingInfos:Array = [];
 		
 		public var searchWord:String;

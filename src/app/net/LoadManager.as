@@ -31,7 +31,7 @@ package app.net
 	{
 		public static const COMPLETE:String = "complete";
 		
-		private var _jsons:Array = ["configure", "brand", "ranking", "shopping_info", "main_slide", "gourmet_slide", "only_galleria", "menu", "tasty_chart"];
+		private var _jsons:Array = ["configure", "brand", "ranking", "shopping_info", "main_slide", "gourmet_slide", "only_galleria", "foodmenu", "tasty_chart", "video"];
 		private var _jsonUrls:Array = [];
 		
 		public function LoadManager() 
@@ -152,6 +152,10 @@ package app.net
 				
 			}
 			Model.instance.tastyCharts = newCharts;
+			
+			//video
+			var videos:Array = JSON.parse(String(multiLoader.getItemContent(9))).videos;
+			Model.instance.videos = videos;
 			
 			var obj:Object = { };
 			obj.slideImages = slideImages;
@@ -283,7 +287,7 @@ package app.net
 		
 		private function onCompleteStaticImages(e:Event):void 
 		{
-			Application.instance.logger.log("Load Complete!!");
+			//Application.instance.logger.log("Load Complete!!");
 			
 			var multiLoader:MultiLoader = e.target as MultiLoader;
 			

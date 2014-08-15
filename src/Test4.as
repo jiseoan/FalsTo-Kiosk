@@ -25,7 +25,7 @@ package
 			var s:String = "abc";
 			
 			//var temp:Boolean = lookupKor("ㅎㅁㅇ", "브루클린;웍스;홈메이드소스;햄버거;치즈;베이컨;;Western");
-			var temp:Boolean = Searcher.search("ㅇㅁㄹㅋㄴ", "아메리카노");
+			var temp:Boolean = Searcher.search("ㅁ", "아메리카노");
 			trace( "temp : " + temp );
 		}
 		

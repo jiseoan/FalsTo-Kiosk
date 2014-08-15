@@ -23,12 +23,19 @@ package app.model
 			var firstChar:String = keyword.substr(0, 1);
 			var chunks:Array = [];
 			
+			
 			for (i = 0; i < max; i++) 
 			{
 				if (compareChar(firstChar, target.substr(i, 1)))
 				{
 					chunks.push(target.substr(i, keyword.length));
 				}
+			}
+			
+			//검색어가 한글자일때..
+			if (keyword.length == 1 && chunks.length > 0)
+			{
+				return true;
 			}
 			
 			for (i = 0; i < chunks.length; i++) 
