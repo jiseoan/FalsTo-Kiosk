@@ -3,8 +3,6 @@
 <!--Any modifications you make may be lost.-->
 <flex-config>
   <target-player>11.9</target-player>
-  <benchmark>false</benchmark>
-  <static-link-runtime-shared-libraries>true</static-link-runtime-shared-libraries>
   <compiler>
     <define append="true">
       <name>CONFIG::debug</name>
@@ -16,7 +14,7 @@
     </define>
     <define append="true">
       <name>CONFIG::timeStamp</name>
-      <value>'2014-07-11'</value>
+      <value>'2015-03-01'</value>
     </define>
     <define append="true">
       <name>CONFIG::air</name>
@@ -32,17 +30,17 @@
     </define>
     <verbose-stacktraces>true</verbose-stacktraces>
     <source-path append="true">
-      <path-element>C:\work\Galleria\develop\GalleriaKiosk\src</path-element>
-      <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
+      <path-element>D:\Documents\Repos\GitHub\FalsTo-Kiosk\src</path-element>
+      <path-element>D:\Documents\Program\Development Tools\FlashDevelop-4.7.1\Library\AS3\classes</path-element>
     </source-path>
     <library-path append="true">
-      <path-element>C:\work\Galleria\develop\GalleriaKiosk\lib\sharedFont.swc</path-element>
-      <path-element>C:\work\Galleria\develop\GalleriaKiosk\lib\greensock.swc</path-element>
-      <path-element>C:\work\Galleria\develop\GalleriaKiosk\lib\assets.swc</path-element>
+      <path-element>D:\Documents\Repos\GitHub\FalsTo-Kiosk\lib\sharedFont.swc</path-element>
+      <path-element>D:\Documents\Repos\GitHub\FalsTo-Kiosk\lib\greensock.swc</path-element>
+      <path-element>D:\Documents\Repos\GitHub\FalsTo-Kiosk\lib\assets.swc</path-element>
     </library-path>
   </compiler>
   <file-specs>
-    <path-element>C:\work\Galleria\develop\GalleriaKiosk\src\Main.as</path-element>
+    <path-element>D:\Documents\Repos\GitHub\FalsTo-Kiosk\src\Main.as</path-element>
   </file-specs>
   <default-background-color>#000000</default-background-color>
   <default-frame-rate>60</default-frame-rate>

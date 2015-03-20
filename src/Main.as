@@ -18,6 +18,13 @@ package
 	import flash.display.StageDisplayState;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
+	
+	// TODO: 터치스크린 이상유무 확인
+	import flash.events.MouseEvent;
+	//import flash.ui.MouseCursorData;
+	import flash.geom.Point;
+	import com.greensock.TweenNano;
+	
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.ui.Keyboard;
@@ -32,12 +39,13 @@ package
 	{
 		public static const BEFORE_RESTART:String = "beforeRestart";
 		public static var instance:Main;
-		
 		private var _mouseVisible:Boolean = false;
 		private var _appid:String;
-		
 		private var _homeCapture:Bitmap;
 		private var _updateAlert:UpdateAlert;
+		
+		// TODO: 터치스크린 이상유무 확인
+		private var _curimage:Sprite;
 		
 		public function Main():void 
 		{
@@ -64,8 +72,12 @@ package
 			if (!_appid)
 			{
 				Mouse.hide();
+				
 				stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 				stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
+				
+				// TODO: 터치스크린 이상유무 확인
+				stage.addEventListener(MouseEvent.CLICK, MouseClick);
 				
 				var logger:AliveLogger = new AliveLogger();
 			}
@@ -74,6 +86,15 @@ package
 			
 			addChild(Application.instance);
 			
+			// TODO: 터치스크린 이상유무 확인
+			_curimage = new Sprite();
+			_curimage.graphics.beginFill(0x0000FF, 0.7);
+			_curimage.graphics.drawCircle(0, 0, 30);
+			//_curimage.graphics.drawRect(0, 0, 40, 40);
+			_curimage.graphics.endFill();
+			_curimage.visible = false;
+			_curimage.alpha = 0;
+			addChild(_curimage);
 		}
 		
 		public function restart():void
@@ -152,6 +173,20 @@ package
 				}
 			}
 			
+		}
+		
+		// TODO: 터치스크린 이상유무 확인
+		private function MouseClick(e:MouseEvent):void
+		{
+			_curimage.x = stage.mouseX;
+			_curimage.y = stage.mouseY;
+			_curimage.visible = true;			
+			TweenNano.to(_curimage, 0.5, { alpha:1, scaleX:3, scaleY:3, onComplete:MouseClick_off } );
+		}
+		private function MouseClick_off():void
+		{
+			_curimage.visible = false;
+			_curimage.alpha = 0;
 		}
 		
 		public function get appid():String 

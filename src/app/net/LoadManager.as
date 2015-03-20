@@ -1,4 +1,4 @@
-package app.net 
+﻿package app.net 
 {
 	import app.Application;
 	import app.model.Brand;
